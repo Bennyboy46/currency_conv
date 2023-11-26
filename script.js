@@ -10,36 +10,36 @@ for (let i = 0; i < dropList.length; i++) {
         dropList[i].insertAdjacentHTML("beforeend", optionTag);
     }
     dropList[i].addEventListener("change", e =>{
-        loadFlag(e.target); 
+        loadFlag(e.target);
     });
 }
 
 function loadFlag(element){
     for(let code in country_list){
         if(code == element.value){
-            let imgTag = element.parentElement.querySelector("img"); 
+            let imgTag = element.parentElement.querySelector("img");
             imgTag.src = `https://flagcdn.com/48x36/${country_list[code].toLowerCase()}.png`;
         }
     }
-}   
+}
 
 window.addEventListener("load", ()=>{
     getExchangeRate();
 });
 
 getButton.addEventListener("click", e =>{
-    e.preventDefault(); 
+    e.preventDefault();
     getExchangeRate();
 });
 
 const exchangeIcon = document.querySelector("form .icon");
 exchangeIcon.addEventListener("click", ()=>{
-    let tempCode = fromCurrency.value; 
-    fromCurrency.value = toCurrency.value; 
+    let tempCode = fromCurrency.value;
+    fromCurrency.value = toCurrency.value;
     toCurrency.value = tempCode;
-    loadFlag(fromCurrency); 
+    loadFlag(fromCurrency);
     loadFlag(toCurrency);
-    getExchangeRate(); 
+    getExchangeRate();
 })
 
 function getExchangeRate(){
@@ -51,10 +51,10 @@ function getExchangeRate(){
         amountVal = 1;
     }
     exchangeRateTxt.innerText = "Getting exchange rate...";
-    let url = `https://v6.exchangerate-api.com/v6/1486373c37d09acf7eded403/latest/USD`;
+    let url = `https://v6.exchangerate-api.com/v6/ea77b0361a1aeb7467ed05d1/latest/${fromCurrency.value}`;
     fetch(url).then(response => response.json()).then(result =>{
-        let exchangeRate = result.conversion_rates[toCurrency.value]; 
-        let totalExRate = (amountVal * exchangeRate).toFixed(2); 
+        let exchangeRate = result.conversion_rates[toCurrency.value];
+        let totalExRate = (amountVal * exchangeRate).toFixed(2);
         exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExRate} ${toCurrency.value}`;
     }).catch(() =>{
         exchangeRateTxt.innerText = "Something went wrong";
